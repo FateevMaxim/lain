@@ -21,7 +21,7 @@ class AllUsersExport implements FromCollection, WithHeadings, WithMapping, Shoul
     public function collection()
     {
         $data = User::query()
-            ->select('name', 'surname', 'login', 'city', 'created_at')
+            ->select('name', 'surname', 'login', 'password', 'city', 'created_at', 'is_active', 'login_date')
             ->where('type', null)
             ->get();
 
@@ -38,8 +38,11 @@ class AllUsersExport implements FromCollection, WithHeadings, WithMapping, Shoul
             $data->name,
             $data->surname,
             $data->login,
+            $data->password,
             $data->city,
             $data->created_at,
+            $data->is_active == 1 ? 'Активен' : ($data->is_active == 0 ? 'Не активирован' : 'Заблокирован'),
+            $data->login_date
         ];
     }
     public function columnFormats(): array
@@ -54,8 +57,11 @@ class AllUsersExport implements FromCollection, WithHeadings, WithMapping, Shoul
             'Имя',
             'Фамилия',
             'Номер телефона',
+            'Пароль',
             'Город',
             'Дата регистрации',
+            'Статус',
+            'Дата входа',
         ];
     }
 }

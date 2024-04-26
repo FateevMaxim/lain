@@ -71,7 +71,13 @@ class ProfileController extends Controller
     public function blockClient (Request $request)
     {
         $user = User::find($request['id']);
-        !$user->block ? $user->block = true : $user->block = null;
+        if ($user->is_active === 1){
+            $user->is_active = 2;
+            $user->block = true;
+        }else{
+            $user->is_active = 1;
+            $user->block = false;
+        }
         $user->save();
         return redirect('dashboard')->with('message', 'Блокировка обновлена');
     }
@@ -95,7 +101,7 @@ class ProfileController extends Controller
     public function accessClient (Request $request)
     {
         $user = User::find($request['id']);
-        !$user->is_active ? $user->is_active = true : $user->is_active = false;
+        !$user->is_active ? $user->is_active = 1 : $user->is_active = 0;
         $user->save();
         return redirect('dashboard')->with('message', 'Доступ обновлён');
     }

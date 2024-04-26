@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShowUsersRequest;
 use App\Models\City;
 use App\Models\ClientTrackList;
 use App\Models\Configuration;
@@ -104,18 +105,54 @@ class DashboardController extends Controller
         $config = Configuration::query()->select('address', 'title_text', 'address_two', 'whats_app')->first();
 
         $userTracksCount = User::select('users.*')
-            ->join('client_track_lists', 'users.id', '=', 'client_track_lists.user_id')
-            ->join('track_lists', 'client_track_lists.track_code', '=', 'track_lists.track_code')
+            ->leftJoin('client_track_lists', 'users.id', '=', 'client_track_lists.user_id')
+            ->leftJoin('track_lists', 'client_track_lists.track_code', '=', 'track_lists.track_code')
             ->selectRaw('COUNT(client_track_lists.id) as client_track_lists_count')
             ->groupBy('users.id')
             ->orderByDesc('client_track_lists_count')
             ->paginate(30);
 
+        $cities = City::all();
 
-        return view('users')->with(compact('userTracksCount', 'config'));
+        return view('users')->with(compact('userTracksCount', 'config', 'cities'));
         /*foreach ($userTracksCount as $user) {
             echo "Пользователь " . $user->id . " - " . $user->client_track_lists_count . "<br>";
         }*/
+    }
+    public function usersFilter (ShowUsersRequest $request)
+    {
+        $config = Configuration::query()->select('address', 'title_text', 'address_two', 'whats_app')->first();
+
+        $userTracksCount = User::select('users.*')
+            ->when($request->userStatus() !== "Все",
+                fn($query) => $query->where('users.is_active', $request->userStatus()))
+            ->when($request->userCity() !== "Все города",
+                fn($query) => $query->where('users.city', $request->userCity()))
+            ->leftJoin('client_track_lists', 'users.id', '=', 'client_track_lists.user_id')
+            ->leftJoin('track_lists', 'client_track_lists.track_code', '=', 'track_lists.track_code')
+            ->selectRaw('COUNT(client_track_lists.id) as client_track_lists_count')
+            ->groupBy('users.id')
+            ->orderByDesc('client_track_lists_count')
+            ->paginate(30);
+
+        $cities = City::all();
+
+        $statusFiler = [
+            ['key' => 'Все', 'value' => 'Все', 'selected' => false],
+            ['key' => '1', 'value' => 'Активные', 'selected' => false],
+            ['key' => '0', 'value' => 'Неактивные', 'selected' => false],
+            ['key' => '2', 'value' => 'Заблокированные', 'selected' => false],
+        ];
+
+        foreach ($statusFiler as &$item) {
+            if ($item['key'] === $request->userStatus()) {
+                $item['selected'] = true;
+            }
+        }
+        $user_city = $request->userCity();
+
+        return view('users')->with(compact('userTracksCount', 'config', 'cities' , 'statusFiler', 'user_city'));
+
     }
 
 

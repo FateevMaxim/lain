@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/client-search', [ProfileController::class, 'searchClient'])->name('client-search');
 
     Route::get('/users', [DashboardController::class, 'users'])->name('users');
+    Route::post('/users-filter', [DashboardController::class, 'usersFilter'])->name('users-filter');
     Route::post('/message-delete', [ProfileController::class, 'deleteMessage'])->name('message-delete');
     Route::post('/message-add', [ProfileController::class, 'addMessage'])->name('message-add');
 

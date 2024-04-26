@@ -95,15 +95,78 @@
                     </div>
                 @endforeach
             @endif
+
+            <div class="griditems-center justify-start mt-2 mb-4 ml-6">
+                <div class="w-full grid-cols-12 text-center">
+                    <h2 class="text-3xl font-extrabold">Фильтр клиентов</h2>
+                </div>
+                <form method="POST" action="{{ route('users-filter') }}" id="userFilterForm">
+                    @csrf
+                <div class="grid grid-cols-6">
+                        <div class="mr-2">
+                            <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите статус</label>
+                            <select name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @if(isset($statusFiler))
+                                    @foreach($statusFiler as $status)
+                                        <option value="{{ $status["key"] }}" @if($status["selected"] === true) selected @endif >{{ $status["value"] }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="Все" selected>Все</option>
+                                    <option value="1">Активные</option>
+                                    <option value="2">Заблокированные</option>
+                                    <option value="0">Не активированные</option>
+                                @endif
+
+                            </select>
+                        </div>
+                        <div class="mr-2">
+                            <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Выберите город</label>
+                            <select name="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @if(isset($user_city))
+                                    <option value="Все города">Все города</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->title }}" @if($city->title === $user_city) selected @endif>{{ $city->title }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="Все города" selected>Все города</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city->title }}">{{ $city->title }}</option>
+                                    @endforeach
+                                @endif
+
+                            </select>
+                        </div>
+
+                    <div style="align-content: end;">
+                        <button type="submit" class="focus:outline-none text-white bg-[#31c48d] hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2">Показать</button>
+                    </div>
+                        <div style="align-content: end;">
+                            <a href="" id="a"><button type="button" id="excel" class="text-white ml-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Экспорт в Excel</button></a>
+                        </div>
+
+                </div>
+            </form>
+            </div>
+
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-500 p-4">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+                <table id="userTable" class="w-full text-sm text-left text-gray-500 p-4">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Имя
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Телефон
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Дата последнего входа
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Статус
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Город
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Количество заказов
@@ -113,7 +176,7 @@
                     <tbody>
                 @foreach($userTracksCount as $user)
 
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <tr class="bg-white border-b hover:bg-gray-50">
 
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{$user->name}}
@@ -125,6 +188,22 @@
                                     </a>
                                 </td>
                                 <td class="px-6 py-4">
+
+                                    {{ $user->login_date }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if($user->is_active === 1)
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Активный</span>
+                                    @elseif($user->is_active === 3)
+                                        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Заблокирован</span>
+                                    @else
+                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Не активирован</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{$user->city}}
+                                </td>
+                                <td class="px-6 py-4">
                                     {{$user->client_track_lists_count}}
                                 </td>
                                 <!-- Main modal -->
@@ -134,6 +213,13 @@
                 </table>
                 {{ $userTracksCount->links() }}
             </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#a").attr("href", 'users-export')
+                });
+            </script>
         </div>
     </div>
+
+
 </x-app-layout>

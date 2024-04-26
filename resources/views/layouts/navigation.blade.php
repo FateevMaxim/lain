@@ -5,6 +5,13 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             <div class="flex justify-between h-16">
+                <div class="text-center mt-2">
+                    <button class="text-white font-bold px-5 py-2.5 mr-2 mb-2" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="flex">
                     <!-- Logo -->
                     <div class="shrink-0 flex text-white items-center">
@@ -22,15 +29,9 @@
                     </div>--}}
                 </div>
 
-                @if(\Illuminate\Support\Facades\Auth::user()->is_active == true)
+                @if(\Illuminate\Support\Facades\Auth::user()->is_active === 1)
                 <!-- drawer init and toggle -->
-                <div class="text-center mt-2">
-                    <button class="text-white font-bold px-5 py-2.5 mr-2 mb-2" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
-                    </button>
-                </div>
+
 
                 <!-- drawer component -->
                 <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-right-label">

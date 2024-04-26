@@ -110,7 +110,7 @@
                 @foreach($users as $user)
                     <div class="w-full bg-white border border-indigo-200 rounded-lg shadow">
                         <ul class="grid grid-cols-1 p-3 text-xl font-medium text-white border-b border-gray-200 rounded-t-lg"
-                            @if($user->is_active == true && $user->block == false && $user->type != 'deleted') style="background-color: rgb(49 196 141);"
+                            @if($user->is_active == 1 && $user->block == false && $user->type != 'deleted') style="background-color: rgb(49 196 141);"
                             @elseif($user->type == 'deleted') style="background-color: rgb(28 28 28);"
                             @elseif($user->block == true) style="background-color: rgb(205 51 51);"
                             @else style="background-color: rgb(194 194 194);" @endif>
@@ -192,7 +192,7 @@
                                 <li class="grid justify-center text-center gap-4">
                                     <form method="POST" action="{{ route('client-access', ['id' => $user->id] ) }}" class="grid items-center w-full justify-end mt-4">
                                         <x-classic-button>
-                                            @if($user->is_active == true) {{ __('Заблокировать') }} @else {{ __('Дать доступ') }} @endif
+                                            @if($user->is_active == 1) {{ __('Заблокировать') }} @else {{ __('Дать доступ') }} @endif
                                         </x-classic-button>
                                     </form>
                                     <x-secondary-button data-modal-target="editModal{{$user->id}}" data-modal-toggle="editModal{{$user->id}}" class="grid items-center w-full justify-end py-3">
