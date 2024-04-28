@@ -1,9 +1,9 @@
 {
-    "name": "BAS01-Cargo",
-    "short_name": "BAS01-Cargo",
+    "name": "Lain181-Cargo",
+    "short_name": "Lain181-Cargo",
     "start_url": "/index.php",
     "background_color": "#fff",
-    "description": "BAS01-Cargo",
+    "description": "Lain181-Cargo",
     "display" : "standalone",
     "orientation" : "portrait",
     "lang": "ru",
