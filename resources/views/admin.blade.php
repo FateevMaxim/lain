@@ -116,10 +116,7 @@
                             @else style="background-color: rgb(194 194 194);" @endif>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="col-span-2 ml-5">
-                                    <span onclick="copyPass()" class="cursor-pointer">{{$user->login}}</span>
-
-
-                                    <div id="loginPass" style="display: none">Ваш номер: {{$user->login}}, пароль: {{$user->password}}</div>
+                                    <span onclick="copyPass(this)" data-login="{{ $user->login }}" data-password="{{ $user->password }}" class="cursor-pointer">{{$user->login}}</span>
                                 </div>
                                     <div class="flex flex-row-reverse col-span-1">
                                         <li class="mr-4">
@@ -241,9 +238,10 @@
                 @endforeach
             </div>
             <script>
-                function copyPass() {
-                    /* Copy text into clipboard */
-                    var loginPass = $("#loginPass").html();
+                function copyPass(element) {
+                    var login = element.getAttribute('data-login');
+                    var password = element.getAttribute('data-password');
+                    var loginPass = "Ваш номер: " + login + ", пароль: " + password;
                     navigator.clipboard.writeText(loginPass);
                 }
 
