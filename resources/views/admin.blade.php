@@ -178,10 +178,6 @@
                                         <span>{{$user->city}}</span></p>
                                 </li>
                                 <li class="flex items-center">
-                                    <p><small>Адрес</small><br />
-                                        <span>{{$user->address}}</span></p>
-                                </li>
-                                <li class="flex items-center">
                                     <p><small>Дата регистрации</small><br />
                                         <span>{{$user->created_at}}</span></p>
                                 </li>
