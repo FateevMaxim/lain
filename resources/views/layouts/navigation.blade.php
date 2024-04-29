@@ -87,6 +87,11 @@
                         var chinaaddress = $("#chinaaddress").html();
                         navigator.clipboard.writeText(chinaaddress);
                     }
+                    function copyPass() {
+                        /* Copy text into clipboard */
+                        var loginPass = $("#loginPass").html();
+                        navigator.clipboard.writeText(loginPass);
+                    }
 
                 </script>
                     <script>

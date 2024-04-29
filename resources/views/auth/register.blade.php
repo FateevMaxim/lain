@@ -50,8 +50,12 @@
         <!-- City -->
         <div class="mt-4">
             <x-input-label for="city" :value="__('Город')" />
-            <x-text-input id="city" class="block mt-1 w-full border-2" type="text" name="city" :value="old('city')" placeholder="Gorod" required autocomplete="city" />
-            <x-input-error :messages="$errors->get('city')" class="mt-2" />
+            <select id="city" name="city" class="block mt-1 w-full border-2 border-gray-300 rounded-md" required>
+                @foreach($cities as $city)
+                    <option value="{{$city->title}}">{{$city->title}}</option>
+                @endforeach
+
+            </select>
         </div>
         <!-- Branch -->
         <!-- Address -->
@@ -138,4 +142,9 @@
     </form>
 
         <script src="{{ asset('/js/flowbite.js') }}"></script>
+        <script>
+            $(document).ready(function(){
+                $('.phone').inputmask('9999999999');
+            });
+        </script>
 </x-guest-layout>
