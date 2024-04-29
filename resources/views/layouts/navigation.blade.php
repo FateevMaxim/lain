@@ -14,9 +14,10 @@
                 </div>
                 <div class="flex">
                     <!-- Logo -->
-                    <div class="shrink-0 flex text-white items-center">
+                    <div class="shrink-0 flex text-white items-center text-right" style="line-height: normal">
                         <a href="{{ route('dashboard') }}">
-                            <h2 style="font-size:30px; font-weight: bold;">@yield( 'title_text' )</h2>
+                            <h2 style="font-size:25px; color: #757575; font-weight: bold;">{{ \Illuminate\Support\Facades\Auth::user()->login }}</h2>
+                            <h2 style="font-size:15px; color: #757575; font-weight: normal;">{{ \Illuminate\Support\Facades\Auth::user()->name }} {{ \Illuminate\Support\Facades\Auth::user()->surname }}</h2>
                             {{--<x-navigation-logo class="block h-9 w-auto fill-current text-gray-800" />--}}
                         </a>
                     </div>
