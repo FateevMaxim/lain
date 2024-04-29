@@ -126,7 +126,7 @@
 
                                     if (data[1].block === 'нет'){
                                         $("#unknown").css("display","block");
-                                    }else if(data[1].block != null){
+                                    }else if(data[1].block != null || data[1].block != 0){
                                         $("#block").css("display","block");
                                     }else{
                                         $("#block").css("display","none");
