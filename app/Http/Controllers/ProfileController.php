@@ -71,7 +71,7 @@ class ProfileController extends Controller
     public function blockClient (Request $request)
     {
         $user = User::find($request['id']);
-        if ($user->is_active === 1){
+        if ($user->is_active != 2){
             $user->is_active = 2;
             $user->block = true;
         }else{
