@@ -40,7 +40,6 @@ class RegisteredUserController extends Controller
             'checkbox' => ['required'],
             'surname' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
             'login' => ['required', 'string', 'max:16', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -55,7 +54,6 @@ class RegisteredUserController extends Controller
             'city' => $request->city,
             'login' => "+7".$request->login,
             'password' => $request->password,
-            'address' => $request->address,
         ]);
 
         event(new Registered($user));

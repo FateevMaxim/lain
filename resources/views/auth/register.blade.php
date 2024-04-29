@@ -58,12 +58,6 @@
             </select>
         </div>
         <!-- Branch -->
-        <!-- Address -->
-        <div class="mt-4">
-            <x-input-label for="address" :value="__('Адрес')" />
-            <x-text-input id="address" class="block mt-1 w-full border-2" type="text" name="address" :value="old('address')" placeholder="Улица, дом, квартира" required autocomplete="address" />
-            <x-input-error :messages="$errors->get('address')" class="mt-2" />
-        </div>
        {{-- @if(isset($config->whats_app))
             <div class="flex items-center justify-end mt-4">
                 <a href="https://api.whatsapp.com/send?phone={{$config->whats_app}}&text=Здравствуйте! Дайте мне, пожалуйста, код для регистрации" class="w-full mx-auto">
