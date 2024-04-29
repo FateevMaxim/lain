@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\Configuration;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -23,8 +24,8 @@ class RegisteredUserController extends Controller
     public function create(): View
     {
         $config = Configuration::query()->select('agreement', 'whats_app')->first();
-        $branches = Branch::all();
-        return view('auth.register')->with(compact( 'config', 'branches'));
+        $cities = City::all();
+        return view('auth.register')->with(compact( 'config', 'cities'));
     }
 
     /**
