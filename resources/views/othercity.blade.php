@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="absolute w-full bottom-0 p-4" style="padding-right: 40px;">
-                        <form method="POST" action="{{ route('almatyout-product') }}" id="searchForm">
+                        <form method="POST" action="{{ route('othercity-product') }}" id="searchForm">
                             <div>
                                 <div>
                                     @csrf

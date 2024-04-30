@@ -38,7 +38,7 @@
 
 }
 .min_height {
-    min-height: 570px;
+    min-height: 670px;
 }
 
 @media (max-width: 575.98px) {
@@ -50,7 +50,7 @@
         overflow: auto;
     }
     .min_height {
-        min-height: 500px;
+        min-height: 600px;
     }
 }
 .font-sans {

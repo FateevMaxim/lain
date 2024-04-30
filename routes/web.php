@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/archive', [DashboardController::class, 'archive'])->name('archive');
     Route::post('/china-product', [ProductController::class, 'addChina'])->name('china-product');
     Route::post('/almatyin-product', [ProductController::class, 'almatyIn'])->name('almatyin-product');
+    Route::post('/othercity-product', [ProductController::class, 'othercityOut'])->name('othercity-product');
     Route::post('/almatyout-product', [ProductController::class, 'almatyOut'])->name('almatyout-product');
     Route::post('/getinfo-product', [ProductController::class, 'getInfoProduct'])->name('getinfo-product');
     Route::post('/client-product', [ProductController::class, 'addClient'])->name('client-product');

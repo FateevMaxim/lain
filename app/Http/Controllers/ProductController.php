@@ -80,6 +80,25 @@ class ProductController extends Controller
     public function almatyOut(Request $request)
     {
 
+        if(isset($request["city"])){
+            $city = $request["city"];
+        }else{
+            $city = null;
+        }
+
+        $status = "Выдано клиенту";
+        if ($request["send"] === 'true'){
+            $status = "Отправлено в Ваш город";
+        }
+
+        $client_field = 'to_client';
+
+
+        return response('success');
+
+    }
+    public function othercityOut(Request $request)
+    {
         if($request["city"] != 'Выберите город' && isset($request["city"])){
             $city = $request["city"];
         }else{
@@ -116,11 +135,13 @@ class ProductController extends Controller
     public function getInfoProduct(Request $request)
     {
 
-        $track_code = ClientTrackList::query()->select('user_id')->where('track_code', $request['track_code'])->first();
+        $track_code = ClientTrackList::query()->select('user_id', 'created_at')->where('track_code', $request['track_code'])->first()->toArray();
         $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'city', 'to_client', 'client_accept', 'to_city', 'to_client_city')->where('track_code', $request['track_code'])->first();
         if ($track_code){
-            $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block')->where('id', $track_code->user_id)->first();
+            $track_code["created_at"] = Carbon::parse($track_code["created_at"])->format('Y-m-d H:i:s');
+            $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block')->where('id', $track_code["user_id"])->first();
         }else{
+            $track_code = null;
             $user_data = [
                 'name' => 'нет',
                 'surname' => 'нет',
@@ -132,7 +153,7 @@ class ProductController extends Controller
             ];
         }
 
-        return response([$track_code_statuses, $user_data]);
+        return response([$track_code_statuses, $user_data, $track_code]);
 
     }
 

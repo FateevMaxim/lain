@@ -7,14 +7,14 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
                 @if(session()->has('message'))
-                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800" role="alert">
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
                         <span class="font-medium">{{ session()->get('message') }}
                     </div>
                 @endif
 
                     <div class="grid grid-cols-1 max-w-3xl mx-auto md:grid-cols-2 h-22 pl-6 pr-6 pb-4">
 
-                        <div class="min_height round_border p-4 relative">
+                        <div class="min_height round_border p-4">
                             <div>
                                 <h3 class="mt-0 p-4 text-2xl font-medium leading-tight text-primary">Пункт выдачи в {{ $cityin }}</h3>
                             </div>
@@ -34,39 +34,43 @@
                         <div class="grid md:mt-0 mt-4 p-4 min_height round_border relative">
                             <div class="grid mt-5">
                                 <div>
-                                    <h4 class="mt-0 text-xl font-medium leading-tight text-primary">Данные клиента</h4>
-                                    <h5 id="block" class="mt-0 text text-red-400 font-medium leading-tight text-primary" style="display: none;">Клиент находится в чёрном списке</h5>
+                                    <div class="text-right">
+                                        <span class="mt-0 text-base text-gray-500">Данные клиента</span>
+                                        <p><b><span id="login" class="text text-3xl"></span></b></p>
+                                        <p class="text-2xl"><b><span id="surname"></span>&nbsp;<span id="name"></span></b></p>
+                                        <p class="text-2xl"><b><span id="city"></span></b></p>
+                                        <h5 id="block" class="mt-0 text text-red-400 font-medium leading-tight text-primary" style="display: none;">Клиент находится в чёрном списке</h5>
+
+                                    </div>
+
                                     <h5 id="unknown" class="mt-0 text text-red-400 font-medium leading-tight text-primary" style="display: none;">Неопознанный трек код</h5>
+                                    <p class="mt-0 text-base text-gray-500">Трек код</p>
+                                    <b><span id="trackcode" class="text text-3xl"></span></b>
+                                    <p class="mt-0 text-base text-gray-500">Дата регистрации клиентом</p>
+                                    <p><b><span id="client_added" class="text text-xl"></span></b></p>
+                                    <p class="mt-0 text-base text-gray-500">Получено на складе в Китае</p>
+                                    <p><b><span id="to_china" class="text text-xl"></span></b></p>
+                                    <p class="mt-0 text-base text-gray-500">Получено на складе в Алматы</p>
+                                    <p><b><span id="to_almaty" class="text text-xl"></span></b></p>
 
-                                    <p><b>Имя:</b> <span id="surnamename"></span> &nbsp; <span id="name"></span></p>
-                                    <p><b>Номер телефона:</b> <span id="login"></span></p>
-                                    <p><b>Город:</b> <span id="city"></span></p>
-
-                                    <p><b>Трек код:</b> <span id="trackcode"></span></p>
-
-                                    <h4 class="mt-4">Дата регистрации в Китае</h4>
-                                    <p><small id="to_china"></small></p>
-                                    <h4>Дата регистрации в Алматы</h4>
-                                    <p><small id="to_almaty"></small></p>
                                     <div id="filial_one">
-                                        <h4>Отправлено в город <span id="city_name"></span></h4>
-                                        <p><small id="to_othercity"></small></p>
+                                        <p class="mt-0 text-base text-gray-500">Отправлено в <span id="city_name"></span></p>
+                                        <p><b><span id="to_othercity" class="text text-xl"></span></b></p>
                                     </div>
                                     <div id="filial_two">
-                                        <h4>Получено в городе <span id="city_name_two"></span></h4>
-                                        <p><small id="to_city"></small></p>
+                                        <p class="mt-0 text-base text-gray-500">Получено в <span id="city_name_two"></span></p>
+                                        <p><b><span id="to_city" class="text text-xl"></span></b></p>
                                     </div>
-
-                                    <h4>Дата выдачи клиенту</h4>
-                                    <p><small id="to_client"></small></p>
-                                    <p><small id="to_client_city"></small></p>
-                                    <h4>Дата получения клиентом</h4>
-                                    <p><small id="client_accept"></small></p>
+                                    <p class="mt-0 text-base text-gray-500">Дата выдачи клиенту</p>
+                                    <p><b><span id="to_client" class="text text-xl"></span></b></p>
+                                    <p><b><span id="to_client_city" class="text text-xl"></span></b></p>
+                                    <p class="mt-0 text-base text-gray-500">Дата получения клиентом</p>
+                                    <p><b><span id="client_accept" class="text text-xl"></span></b></p>
                                 </div>
                             </div>
 
                             <div class="absolute w-full bottom-0 p-4">
-                                <form method="POST" action="{{ route('almatyout-product') }}" id="almatyOut">
+                                <form method="POST" action="{{ route('othercity-product') }}" id="almatyOut">
                                         <div class="w-full">
                                             @csrf
 
@@ -96,6 +100,7 @@
                             /* отправляем данные методом POST */
                             $.post( url, { track_code: track_code } )
                                 .done(function( data ) {
+                                    $("#client_added").text(data[2].created_at);
                                     $("#surname").text(data[1].surname);
                                     $("#name").text(data[1].name);
                                     $("#login").text(data[1].login);
@@ -141,7 +146,7 @@
 
                             /* собираем данные с элементов страницы: */
                             var $form = $( this ),
-                                track_codes = $("#trackcode").text();
+                                track_codes = $("#track_code").val();
                             to_city = $("#city_name").text();
                             url = $form.attr( 'action' );
 
@@ -158,7 +163,7 @@
                             /* отключение стандартной отправки формы */
                             event.preventDefault();
 
-                            track_codes = $("#trackcode").text();
+                            track_codes = $("#track_code").val();
                             url = 'almatyout-product';
 
                             /* отправляем данные методом POST */
