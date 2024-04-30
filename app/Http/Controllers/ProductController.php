@@ -46,27 +46,7 @@ class ProductController extends Controller
         if (Auth::user()->type === 'almatyin'){
             $city_field = 'to_almaty';
             $city_value = 'Получено на складе в Алматы';
-            $city = 'Алматы';
             $reg_field = 'reg_almaty';
-        }elseif (Auth::user()->type === 'karagandain'){
-            $city_field = 'to_city';
-            $city_value = 'Получено на складе в Караганде';
-            $reg_field = 'reg_city';
-        }elseif (Auth::user()->type === 'astanain'){
-            $city_field = 'to_city';
-            $city_value = 'Получено на складе в Астане';
-            $city = 'Астана';
-            $reg_field = 'reg_city';
-        }elseif (Auth::user()->type === 'aktauin'){
-            $city_field = 'to_city';
-            $city_value = 'Получено на складе в Актау';
-            $city = 'Актау';
-            $reg_field = 'reg_city';
-        }elseif (Auth::user()->type === 'semeyin'){
-            $city_field = 'to_city';
-            $city_value = 'Получено на складе в Семее';
-            $city = 'Семей';
-            $reg_field = 'reg_city';
         }
 
         foreach ($array as $ar){
@@ -99,6 +79,7 @@ class ProductController extends Controller
 
     public function almatyOut(Request $request)
     {
+
         if($request["city"] != 'Выберите город' && isset($request["city"])){
             $city = $request["city"];
         }else{
@@ -138,7 +119,7 @@ class ProductController extends Controller
         $track_code = ClientTrackList::query()->select('user_id')->where('track_code', $request['track_code'])->first();
         $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'city', 'to_client', 'client_accept', 'to_city', 'to_client_city')->where('track_code', $request['track_code'])->first();
         if ($track_code){
-            $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block', 'address')->where('id', $track_code->user_id)->first();
+            $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block')->where('id', $track_code->user_id)->first();
         }else{
             $user_data = [
                 'name' => 'нет',
