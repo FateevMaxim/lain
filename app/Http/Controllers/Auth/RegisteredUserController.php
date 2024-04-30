@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'surname' => $request->surname,
             'city' => $request->city,
-            'login' => "+7".$request->login,
+            'login' => $request->login,
             'password' => $request->password,
         ]);
 

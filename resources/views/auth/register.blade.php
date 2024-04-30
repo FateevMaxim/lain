@@ -32,15 +32,9 @@
         </div>
 
         <div class="flex items-center">
-        <button class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 mt-1 text-sm border-2 font-medium text-center text-gray-900 bg-gray-100 border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600" type="button">
-            <img
-                src="{{ asset('images/kaz.svg') }}"
-                height="12px"
-                width="20px" />
-             &nbsp;+7
-        </button>
+
         <div class="relative w-full">
-            <x-text-input id="login" class="block phone mt-1 w-full border-2" type="text" name="login" placeholder="+7 701 775 7272" :value="old('login')" required autocomplete="login" />
+            <x-text-input id="login" class="block phone mt-1 w-full border-2" type="text" name="login" placeholder="8 701 775 7272" :value="old('login')" required autocomplete="login" />
         </div>
         </div>
         <div class="flex items-center w-9/12 mx-auto">
@@ -136,9 +130,4 @@
     </form>
 
         <script src="{{ asset('/js/flowbite.js') }}"></script>
-        <script>
-            $(document).ready(function(){
-                $('.phone').inputmask('9999999999');
-            });
-        </script>
 </x-guest-layout>
