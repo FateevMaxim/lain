@@ -129,15 +129,19 @@ class ProductController extends Controller
             ];
         }
         TrackList::upsert($wordsFromFile, ['track_code', $client_field, 'status', 'city', 'reg_client', 'updated_at']);
-        return response('success');
+        return response([
+            'message' => 'Success',
+            'date' => date(now())
+        ]);
 
     }
     public function getInfoProduct(Request $request)
     {
 
-        $track_code = ClientTrackList::query()->select('user_id', 'created_at')->where('track_code', $request['track_code'])->first()->toArray();
+        $track_code = ClientTrackList::query()->select('user_id', 'created_at', 'track_code')->where('track_code', $request['track_code'])->first();
         $track_code_statuses =  TrackList::query()->select('to_china', 'to_almaty', 'city', 'to_client', 'client_accept', 'to_city', 'to_client_city')->where('track_code', $request['track_code'])->first();
         if ($track_code){
+            $track_code = $track_code->toArray();
             $track_code["created_at"] = Carbon::parse($track_code["created_at"])->format('Y-m-d H:i:s');
             $user_data = User::query()->select('name', 'surname', 'login', 'city', 'block')->where('id', $track_code["user_id"])->first();
         }else{

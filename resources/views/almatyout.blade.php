@@ -11,7 +11,22 @@
                         <span class="font-medium">{{ session()->get('message') }}
                     </div>
                 @endif
-
+                    <div id="toast-error" class="flex absolute z-10 items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" style="width: 95%;" role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div>
+                            <span class="font-medium">Такой трек у клиентов не найден!</span>
+                        </div>
+                    </div>
+                    <div id="toast-success" class="flex absolute z-10 items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" style="width: 95%;" role="alert">
+                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div>
+                            <span class="font-medium">Товар выдан!</span>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-1 max-w-3xl mx-auto md:grid-cols-2 h-22 pl-6 pr-6 pb-4">
 
                         <div class="min_height round_border p-4">
@@ -25,8 +40,8 @@
                                     <x-text-input id="track_code" class="block mt-1 w-full border-2 border-sky-400" type="text" name="track_code" autofocus />
                                 </div>
                             </form>
-                            <div class="absolute p-4 bottom-0">
-                                <h3 class="mt-0 text-2xl font-medium leading-tight text-primary">Выдано сегодня: {{ $count }}</h3>
+                            <div class="p-4 bottom-0">
+                                <h3 class="mt-0 text-2xl font-medium leading-tight text-primary">Выдано сегодня: <span id="count">{{ $count }}</span></h3>
                             </div>
 
                         </div>
@@ -86,6 +101,8 @@
 
                         </div>
                     <script>
+                        document.getElementById('toast-success').style.display = 'none';
+                        document.getElementById('toast-error').style.display = 'none';
 
                         /* прикрепить событие submit к форме */
                         $("#getInfoForm").submit(function(event) {
@@ -95,48 +112,74 @@
                             /* собираем данные с элементов страницы: */
                             var $form = $( this ),
                                 track_code = $("#track_code").val();
-                            url = $form.attr( 'action' );
 
+                            url = $form.attr( 'action' );
+                            $("#trackcode").text(track_code);
                             /* отправляем данные методом POST */
                             $.post( url, { track_code: track_code } )
                                 .done(function( data ) {
-                                    $("#client_added").text(data[2].created_at);
-                                    $("#surname").text(data[1].surname);
-                                    $("#name").text(data[1].name);
-                                    $("#login").text(data[1].login);
-                                    $("#city").text(data[1].city);
-                                    $("#to_china").text(data[0].to_china);
-                                    $("#trackcode").text(track_code);
-                                    $("#to_almaty").text(data[0].to_almaty);
-                                    $("#to_city").text(data[0].to_city);
-                                    $("#to_client_city").text(data[0].to_client_city);
-                                    $("#city_name").text(data[0].city);
-                                    $("#city_name_two").text(data[0].city);
+                                    if (data[2] == null){
+                                        document.getElementById('toast-error').style.display = 'flex'; // показываем сообщение
 
-                                    var city_name = data[0].city;
-
-                                    if(city_name){
-                                        $("#to_othercity").text(data[0].to_client);
-                                        //$("#to_client").text(data[0].to_client);
+                                        $("#client_added").text(null);
+                                        $("#surname").text(null);
+                                        $("#name").text(null);
+                                        $("#login").text(null);
+                                        $("#city").text(null);
+                                        $("#to_china").text(null);
+                                        $("#to_almaty").text(null);
+                                        $("#to_city").text(null);
+                                        $("#to_client_city").text(null);
+                                        $("#city_name").text(null);
+                                        $("#city_name_two").text(null);
+                                        $("#to_othercity").text(null);
+                                        $("#client_accept").text(null);
+                                        $("#to_client").text(null);
+                                        setTimeout(function() {
+                                            document.getElementById('toast-error').style.display = 'none'; // скрываем сообщение через 5 секунд
+                                        }, 10000); // 5000 миллисекунд = 5 секунд
                                     }else{
+                                        $("#client_added").text(data[2].created_at);
+                                        $("#surname").text(data[1].surname);
+                                        $("#name").text(data[1].name);
+                                        $("#login").text(data[1].login);
+                                        $("#city").text(data[1].city);
+                                        $("#to_china").text(data[0].to_china);
+                                        $("#trackcode").text(track_code);
+                                        $("#to_almaty").text(data[0].to_almaty);
+                                        $("#to_city").text(data[0].to_city);
+                                        $("#to_client_city").text(data[0].to_client_city);
+                                        $("#city_name").text(data[0].city);
+                                        $("#city_name_two").text(data[0].city);
 
-                                        $("#filial_one").css("display", "none");
-                                        $("#filial_two").css("display", "none");
-                                        $("#to_client").text(data[0].to_client);
+                                        var city_name = data[0].city;
+
+                                        if(city_name){
+                                            $("#to_othercity").text(data[0].to_client);
+                                            //$("#to_client").text(data[0].to_client);
+                                        }else{
+
+                                            $("#filial_one").css("display", "none");
+                                            $("#filial_two").css("display", "none");
+                                            $("#to_client").text(data[0].to_client);
+                                        }
+
+                                        $("#client_accept").text(data[0].client_accept);
+
+                                        if (data[1].block === 'нет'){
+                                            $("#unknown").css("display","block");
+                                        }else if(data[1].block != null && data[1].block != 0){
+                                            $("#block").css("display","block");
+                                        }else{
+                                            $("#block").css("display","none");
+                                            $("#unknown").css("display","none");
+                                        }
                                     }
 
-                                    $("#client_accept").text(data[0].client_accept);
-
-                                    if (data[1].block === 'нет'){
-                                        $("#unknown").css("display","block");
-                                    }else if(data[1].block != null && data[1].block != 0){
-                                        $("#block").css("display","block");
-                                    }else{
-                                        $("#block").css("display","none");
-                                        $("#unknown").css("display","none");
-                                    }
 
                                 });
+
+                            $("#track_code").val('');
                         });
 
                         /* прикрепить событие submit к форме */
@@ -146,14 +189,20 @@
 
                             /* собираем данные с элементов страницы: */
                             var $form = $( this ),
-                                track_codes = $("#track_code").val();
+                                track_codes = $("#trackcode").text();
                             to_city = $("#city_name").text();
                             url = $form.attr( 'action' );
 
                             /* отправляем данные методом POST */
                             $.post( url, { track_codes: track_codes, to_city: to_city } )
                                 .done(function( data ) {
-                                    location.reload();
+                                    var count = parseInt($("#count").text());
+                                    $("#count").text(count+1);
+                                    $("#to_client").text(data["date"]);
+                                    document.getElementById('toast-success').style.display = 'flex'; // показываем сообщение
+                                    setTimeout(function() {
+                                        document.getElementById('toast-success').style.display = 'none'; // скрываем сообщение через 5 секунд
+                                    }, 5000); // 5000 миллисекунд = 5 секунд
                                 });
 
                         });
@@ -162,14 +211,21 @@
                         $("#clear").click(function(event) {
                             /* отключение стандартной отправки формы */
                             event.preventDefault();
-
-                            track_codes = $("#track_code").val();
-                            url = 'almatyout-product';
+                            var $form = $( this ),
+                                track_codes = $("#trackcode").text();
+                            track_codes = $("#trackcode").text();
+                            url = 'othercity-product';
 
                             /* отправляем данные методом POST */
                             $.post( url, { track_codes: track_codes, send: true } )
                                 .done(function( data ) {
-                                    location.reload();
+                                    var count = parseInt($("#count").text());
+                                    $("#count").text(count+1);
+                                    $("#to_client").text(data["date"]);
+                                    document.getElementById('toast-success').style.display = 'flex'; // показываем сообщение
+                                    setTimeout(function() {
+                                        document.getElementById('toast-success').style.display = 'none'; // скрываем сообщение через 5 секунд
+                                    }, 5000); // 5000 миллисекунд = 5 секунд
                                 });
 
                         });
