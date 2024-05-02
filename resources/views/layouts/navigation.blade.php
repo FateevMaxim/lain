@@ -1,5 +1,5 @@
 
-    <nav x-data="{ open: false }" class="bg-[#313131] border-b border-gray-100">
+    <nav x-data="{ open: false }" class="fixed top-0 w-full bg-[#313131] border-b border-gray-100 z-50">
         <!-- Primary Navigation Menu -->
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
