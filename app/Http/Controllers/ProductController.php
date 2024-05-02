@@ -128,7 +128,7 @@ class ProductController extends Controller
                 'updated_at' => date(now()),
             ];
         }
-        TrackList::upsert($wordsFromFile, ['track_code', $client_field, 'status', 'city', 'reg_client', 'updated_at']);
+        TrackList::upsert($wordsFromFile, ['track_code', $client_field, 'status', 'reg_client', 'city', 'updated_at']);
         return response([
             'message' => 'Success',
             'date' => date(now())
