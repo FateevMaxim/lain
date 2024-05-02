@@ -180,6 +180,7 @@
                                 });
 
                             $("#track_code").val('');
+                            document.getElementById('track_code').focus();
                         });
 
                         /* прикрепить событие submit к форме */
@@ -203,6 +204,7 @@
                                     setTimeout(function() {
                                         document.getElementById('toast-success').style.display = 'none'; // скрываем сообщение через 5 секунд
                                     }, 5000); // 5000 миллисекунд = 5 секунд
+                                    document.getElementById('track_code').focus();
                                 });
 
                         });
@@ -226,6 +228,7 @@
                                     setTimeout(function() {
                                         document.getElementById('toast-success').style.display = 'none'; // скрываем сообщение через 5 секунд
                                     }, 5000); // 5000 миллисекунд = 5 секунд
+                                    document.getElementById('track_code').focus();
                                 });
 
                         });
