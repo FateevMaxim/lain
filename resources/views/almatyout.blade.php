@@ -118,62 +118,58 @@
                             /* отправляем данные методом POST */
                             $.post( url, { track_code: track_code } )
                                 .done(function( data ) {
+                                    $("#to_china").text(null);
+                                    $("#to_almaty").text(null);
+                                    $("#to_city").text(null);
+                                    $("#to_client_city").text(null);
+                                    $("#city_name").text(null);
+                                    $("#city_name_two").text(null);
+                                    $("#to_othercity").text(null);
+                                    $("#client_accept").text(null);
+                                    $("#to_client").text(null);
                                     if (data[2] == null){
+                                        $("#unknown").css("display","block");
                                         document.getElementById('toast-error').style.display = 'flex'; // показываем сообщение
-
                                         $("#client_added").text(null);
                                         $("#surname").text(null);
                                         $("#name").text(null);
                                         $("#login").text(null);
                                         $("#city").text(null);
-                                        $("#to_china").text(null);
-                                        $("#to_almaty").text(null);
-                                        $("#to_city").text(null);
-                                        $("#to_client_city").text(null);
-                                        $("#city_name").text(null);
-                                        $("#city_name_two").text(null);
-                                        $("#to_othercity").text(null);
-                                        $("#client_accept").text(null);
-                                        $("#to_client").text(null);
                                         setTimeout(function() {
                                             document.getElementById('toast-error').style.display = 'none'; // скрываем сообщение через 5 секунд
                                         }, 10000); // 5000 миллисекунд = 5 секунд
                                     }else{
                                         $("#client_added").text(data[2].created_at);
-                                        $("#surname").text(data[1].surname);
-                                        $("#name").text(data[1].name);
-                                        $("#login").text(data[1].login);
-                                        $("#city").text(data[1].city);
-                                        $("#to_china").text(data[0].to_china);
-                                        $("#trackcode").text(track_code);
-                                        $("#to_almaty").text(data[0].to_almaty);
-                                        $("#to_city").text(data[0].to_city);
-                                        $("#to_client_city").text(data[0].to_client_city);
-                                        $("#city_name").text(data[0].city);
-                                        $("#city_name_two").text(data[0].city);
+                                    }
+                                    $("#to_china").text(data[0].to_china);
+                                    $("#trackcode").text(track_code);
+                                    $("#to_almaty").text(data[0].to_almaty);
+                                    $("#to_city").text(data[0].to_city);
+                                    $("#to_client_city").text(data[0].to_client_city);
+                                    $("#city_name").text(data[0].city);
+                                    $("#city_name_two").text(data[0].city);
 
-                                        var city_name = data[0].city;
+                                    var city_name = data[0].city;
 
-                                        if(city_name){
-                                            $("#to_othercity").text(data[0].to_client);
-                                            //$("#to_client").text(data[0].to_client);
-                                        }else{
+                                    if(city_name){
+                                        $("#to_othercity").text(data[0].to_client);
+                                        //$("#to_client").text(data[0].to_client);
+                                    }else{
 
-                                            $("#filial_one").css("display", "none");
-                                            $("#filial_two").css("display", "none");
-                                            $("#to_client").text(data[0].to_client);
-                                        }
+                                        $("#filial_one").css("display", "none");
+                                        $("#filial_two").css("display", "none");
+                                        $("#to_client").text(data[0].to_client);
+                                    }
 
-                                        $("#client_accept").text(data[0].client_accept);
+                                    $("#client_accept").text(data[0].client_accept);
 
-                                        if (data[1].block === 'нет'){
-                                            $("#unknown").css("display","block");
-                                        }else if(data[1].block != null && data[1].block != 0){
-                                            $("#block").css("display","block");
-                                        }else{
-                                            $("#block").css("display","none");
-                                            $("#unknown").css("display","none");
-                                        }
+                                    if (data[1].block === 'нет'){
+                                        $("#unknown").css("display","block");
+                                    }else if(data[1].block != null && data[1].block != 0){
+                                        $("#block").css("display","block");
+                                    }else{
+                                        $("#block").css("display","none");
+                                        $("#unknown").css("display","none");
                                     }
 
 
