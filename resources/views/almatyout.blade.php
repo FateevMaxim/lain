@@ -139,6 +139,10 @@
                                             document.getElementById('toast-error').style.display = 'none'; // скрываем сообщение через 5 секунд
                                         }, 10000); // 5000 миллисекунд = 5 секунд
                                     }else{
+                                        $("#surname").text(data[1].surname);
+                                        $("#name").text(data[1].name);
+                                        $("#login").text(data[1].login);
+                                        $("#city").text(data[1].city);
                                         $("#client_added").text(data[2].created_at);
                                     }
                                     $("#to_china").text(data[0].to_china);
