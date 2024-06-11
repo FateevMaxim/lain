@@ -46,7 +46,9 @@
             <x-input-label for="city" :value="__('Город')" />
             <select id="city" name="city" class="block mt-1 w-full border-2 border-gray-300 rounded-md" required>
                 @foreach($cities as $city)
-                    <option value="{{$city->title}}">{{$city->title}}</option>
+                <option value="{{ $city->title }}" {{ old('city') == $city->title ? 'selected' : '' }}>
+                    {{ $city->title }}
+                </option>
                 @endforeach
 
             </select>

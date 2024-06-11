@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'login' => ['required', 'string', 'max:16', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed'],
         ]);
 
         if (Str::contains($request->login, '_')){
