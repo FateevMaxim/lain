@@ -31,7 +31,7 @@ class TracksImport implements ToModel, SkipsOnError
     */
     public function model(array $row)
     {
-        if (isset($row[1])){
+        if (isset($row[0])){
             return new TrackList([
                 'track_code' => $row[0],
                 'to_china' => $this->date,
